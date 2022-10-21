@@ -1,0 +1,32 @@
+{
+  "productList": [
+    {
+      "productName": "apple",
+      "Category": "fruits",
+      "freshness": "Brand New",
+      "price": 8,
+      "comment": "good quality",
+      "date": "2022-10-21T22:00:00.000Z",
+      "id": 1
+    },
+    {
+      "productName": "mangue",
+      "Category": "fruits",
+      "freshness": "Second Brand",
+      "price": 15,
+      "comment": "fresh",
+      "date": "2022-10-21T22:00:00.000Z",
+      "id": 2
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

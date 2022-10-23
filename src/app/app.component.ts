@@ -5,6 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DialogComponent } from './dialog/dialog.component';
 import { ApiService } from './services/api.service';
+import { Action } from 'rxjs/internal/scheduler/Action';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,7 +13,7 @@ import { ApiService } from './services/api.service';
 })
 export class AppComponent implements OnInit {
   title = 'Angular13';
-  displayedColumns: string[] = ['productName', 'Category', 'freshness', 'price','comment','date'];
+  displayedColumns: string[] = ['productName', 'Category', 'freshness', 'price','comment','date','Action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -24,6 +25,10 @@ export class AppComponent implements OnInit {
   openDialog() {
     this.dialog.open(DialogComponent, {
       width:'30%'
+    }).afterClosed().subscribe(val =>{
+      if(val==='Save'){
+        this.getAllProducts()
+      }
     });
   }
   getAllProducts(){
@@ -34,7 +39,7 @@ export class AppComponent implements OnInit {
        this.dataSource.sort= this.sort;
 
       },
-      error:(err)=>{
+      error:()=>{
         alert('oups')
       }
     })
@@ -48,5 +53,26 @@ export class AppComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+  editProduct(row : any){
+    this.dialog.open(DialogComponent,{
+      width:'30%',
+      data:row
+    }).afterClosed().subscribe(val =>{
+      if(val==='Update'){
+        this.getAllProducts()
+      }
+    });
+  }
+  deletProduct(id : number){
+    this.api.deleteProduct(id).subscribe({
+      next:(res)=>{
+        alert("deleted with succussfuly")
+        this.getAllProducts();
+      },
+      error:()=>{
+        alert("error in delete")
+      }
+    })
   }
 }
